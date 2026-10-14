@@ -1,0 +1,18 @@
+# 依赖（本项目无 npm 依赖，预留）
+node_modules/
+
+# 打包产物：扩展 zip 属于发布物，不入库
+*.zip
+release/
+dist/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# 日志与临时文件
+*.log

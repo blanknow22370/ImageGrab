@@ -1,0 +1,143 @@
+/* =============================================================================
+ * 图提取 ImageGrab — content.css
+ * 悬浮按钮与轻提示样式。所有选择器以 #imagegrab- 前缀命名，避免污染页面。
+ * ===========================================================================*/
+
+#imagegrab-fab {
+  /* 局部变量，便于统一调整 */
+  --ig-grad: linear-gradient(135deg, #3b7bff 0%, #6d5cf6 55%, #9a4dfb 100%);
+  --ig-shadow: 0 8px 22px rgba(74, 92, 230, 0.38), 0 2px 6px rgba(20, 24, 60, 0.18);
+
+  position: fixed !important;
+  right: 22px;
+  bottom: 22px;
+  z-index: 2147483000;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0;
+  padding: 11px 18px 11px 15px;
+  border: 0;
+  border-radius: 999px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  color: #fff;
+
+  background: var(--ig-grad);
+  box-shadow: var(--ig-shadow);
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.3, 1),
+              box-shadow 0.22s ease,
+              filter 0.22s ease;
+}
+
+#imagegrab-fab:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(74, 92, 230, 0.46), 0 3px 8px rgba(20, 24, 60, 0.2);
+  filter: saturate(1.08);
+}
+
+#imagegrab-fab:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 4px 12px rgba(74, 92, 230, 0.34);
+}
+
+#imagegrab-fab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(109, 92, 246, 0.55), var(--ig-shadow);
+}
+
+#imagegrab-fab .ig-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: block;
+}
+
+#imagegrab-fab .ig-label {
+  white-space: nowrap;
+}
+
+/* 扫描中的旋转指示器：默认隐藏 */
+#imagegrab-fab .ig-spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  animation: ig-spin 0.7s linear infinite;
+}
+
+#imagegrab-fab.is-loading {
+  cursor: progress;
+  filter: saturate(0.9);
+}
+#imagegrab-fab.is-loading .ig-spinner { display: block; }
+#imagegrab-fab.is-loading .ig-icon { display: none; }
+
+@keyframes ig-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 轻提示 toast：底部居中，出现在按钮左侧 */
+#imagegrab-toast {
+  position: fixed !important;
+  left: 50%;
+  bottom: 30px;
+  transform: translate(-50%, 14px);
+  z-index: 2147483001;
+
+  max-width: min(78vw, 420px);
+  padding: 11px 18px;
+  border-radius: 12px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #fff;
+  background: rgba(23, 27, 54, 0.94);
+  box-shadow: 0 10px 30px rgba(12, 16, 40, 0.34);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+#imagegrab-toast.is-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* 小屏适配：按钮缩小、贴边 */
+@media (max-width: 480px) {
+  #imagegrab-fab {
+    right: 14px;
+    bottom: 14px;
+    padding: 10px 15px 10px 13px;
+    font-size: 13px;
+  }
+  #imagegrab-fab .ig-icon { width: 16px; height: 16px; }
+}
+
+/* 尊重系统的「减少动态效果」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  #imagegrab-fab,
+  #imagegrab-toast {
+    transition: none !important;
+  }
+  #imagegrab-fab .ig-spinner { animation: none; }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>图提取 · 图片画廊</title>
+  <link rel="stylesheet" href="gallery.css" />
+</head>
+<body>
+  <!-- 顶部：品牌 + 提取来源 -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13Z"
+                fill="none" stroke="currentColor" stroke-width="1.7"/>
+          <circle cx="9" cy="9.3" r="1.7" fill="currentColor"/>
+          <path d="M5.4 17.2l3.5-3.6a1.3 1.3 0 0 1 1.9 0l2.1 2.2 1.2-1.2a1.3 1.3 0 0 1 1.9 0l1.9 2"
+                fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand__name">图提取</span>
+      <span class="brand__sub">图片画廊</span>
+    </div>
+
+    <div class="source" id="source">
+      <span class="source__label" id="sourceLabel">等待数据…</span>
+      <a class="source__link" id="sourceLink" href="#" target="_blank" rel="noopener noreferrer" hidden>查看来源页</a>
+    </div>
+  </header>
+
+  <!-- 工具栏：选择与下载 -->
+  <div class="toolbar" id="toolbar" hidden>
+    <div class="toolbar__left">
+      <button class="btn btn--ghost" id="btnSelectAll" type="button">全选</button>
+      <button class="btn btn--ghost" id="btnInvert" type="button">反选</button>
+      <button class="btn btn--ghost" id="btnClear" type="button">清空选择</button>
+      <label class="switch" title="勾选后自动排除小图">
+        <input type="checkbox" id="chkSkipSmall" checked />
+        <span>忽略小于 100×100</span>
+      </label>
+    </div>
+    <div class="toolbar__right">
+      <span class="count" id="countLabel">已选 0 / 0</span>
+      <button class="btn btn--primary" id="btnDownload" type="button" disabled>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M12 3v10m0 0 3.6-3.6M12 13l-3.6-3.6" fill="none" stroke="currentColor"
+                stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.5 16.5v1.8A2.2 2.2 0 0 0 6.7 20.5h10.6a2.2 2.2 0 0 0 2.2-2.2v-1.8"
+                fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+        下载选中为 PNG
+      </button>
+    </div>
+  </div>
+
+  <!-- 主体 -->
+  <main class="main">
+    <!-- 空状态 -->
+    <section class="empty" id="empty" hidden>
+      <div class="empty__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="34" height="34">
+          <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-13Z"
+                fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="9" cy="9.3" r="1.7" fill="currentColor"/>
+          <path d="M5.4 17.2l3.5-3.6a1.3 1.3 0 0 1 1.9 0l2.1 2.2 1.2-1.2a1.3 1.3 0 0 1 1.9 0l1.9 2"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2 class="empty__title" id="emptyTitle">还没有提取到图片</h2>
+      <p class="empty__text" id="emptyText">
+        打开淘宝 / 京东 / 拼多多的商品详情页，点击页面右下角的
+        <b>「获取图片」</b> 按钮，图片就会集中显示在这里。
+      </p>
+      <div class="empty__actions">
+        <button class="btn btn--primary" id="btnReload" type="button">重新读取上次结果</button>
+        <button class="btn btn--ghost" id="btnGrant" type="button">授予全部站点访问权限（跨域兜底）</button>
+      </div>
+    </section>
+
+    <!-- 图片网格 -->
+    <section class="grid" id="grid" aria-live="polite"></section>
+  </main>
+
+  <!-- 底部进度 / 结果 -->
+  <div class="progress" id="progress" hidden>
+    <div class="progress__row">
+      <span class="progress__text" id="progressText">准备下载…</span>
+      <span class="progress__pct" id="progressPct">0%</span>
+    </div>
+    <div class="progress__track"><div class="progress__bar" id="progressBar"></div></div>
+  </div>
+
+  <!-- 结果反馈浮层 -->
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="gallery.js"></script>
+</body>
+</html>
